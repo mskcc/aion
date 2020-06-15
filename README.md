@@ -4,11 +4,14 @@
 ## Usage
 
 Requires:
-- python 2.7.x
-- A YAML file (see `resources/example.yaml`)
+- python 3.x
 
 ##### Command:
-```python cbioportal_merge.py -y <yaml file>```
-
+```
+usage: cbioportal_merge.py [-h] --directory DIRECTORY [DIRECTORY ...]
+                           --project_desc PROJECT_DESC
+                           [--project_title PROJECT_TITLE] --study_id STUDY_ID
+                           [--output_directory OUTPUT_DIRECTORY]
+```
 ##### Output:
 A `portal/` directory with meta, data clinical, case list, and seg files
