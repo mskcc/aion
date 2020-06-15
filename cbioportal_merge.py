@@ -169,9 +169,11 @@ def runner(request_dict):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('-y', '--yaml_file', required=True, help="A YAML containing al relevant information.")
+    parser.add_argument("--directory", nargs="+", required=True, help="List of directories to merge")
+    parser.add_argument("--project_desc", required=True, help="Project description")
+    parser.add_argument("--project_title", required=False, help="Project Title")
+    parser.add_argument("--study_id", required=True, help="Study ID")
+    parser.add_argument("--output_directory", required=False, help="Location of output directory")
     args =  parser.parse_args()
-    yaml_file = args.yaml_file
-    yaml_data = yaml.safe_load(open(yaml_file, 'rb'))
-
+    request_dict = vars(args)
     runner(request_dict)

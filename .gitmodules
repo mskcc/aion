@@ -1,0 +1,3 @@
+[submodule "lib/oncotree_data_handler"]
+	path = lib/oncotree_data_handler
+	url = git@github.com:mskcc/oncotree_data_handler.git
