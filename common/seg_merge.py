@@ -28,7 +28,7 @@ def create_seg_meta(file_list, study_id, seg_data_file_name):
 def load_meta(file_list):
     meta_data = list()
     for f in file_list:
-        data = yaml.safe_load(open(f, 'rb'))
+        data = yaml.safe_load(open(f, 'r'))
         meta_data.append(data)
     return meta_data
 

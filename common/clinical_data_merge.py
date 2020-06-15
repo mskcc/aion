@@ -132,7 +132,7 @@ def check_attr(attrs, expected_attrs):
                     sys.exit(1)
 
 def get_attr(clin_file):
-    with open(clin_file, 'rb') as f:
+    with open(clin_file, 'r') as f:
         data = list(islice(f, 5))
     headers = data[ROW_HEADER].strip().split("\t")
     attrs = compile_attrs(headers, data)

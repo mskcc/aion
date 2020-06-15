@@ -18,7 +18,7 @@ def return_tmpfiles_from_file_list(file_list):
 # Need to replace tab characters with another delimiter so that the YAML parse works
 def modify_files_to_remove_tabs(tmp_files):
     for f in tmp_files:
-        with open(f, 'rb') as my_file:
+        with open(f, 'r') as my_file:
             data = my_file.readlines()
             for i,line in enumerate(data):
                 line = line.replace(":\t",": ") #fixing inconsistent tab or space
@@ -68,7 +68,7 @@ def get_case_list_ids(data):
 def load_case_lists_files(file_list):
     case_data = list()
     for f in file_list:
-        data = yaml.safe_load(open(f, 'rb'))
+        data = yaml.safe_load(open(f, 'r'))
         case_data.append(data)
     return case_data
 

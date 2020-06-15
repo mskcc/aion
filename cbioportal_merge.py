@@ -48,7 +48,7 @@ def write_dict(output_dir, d):
     for key in d:
         fname = os.path.basename(key)
         fpath = os.path.join(output_dir, fname)
-        o = open(fpath, 'wb')
+        o = open(fpath, 'w')
         o.write(d[key])
         o.close()
 

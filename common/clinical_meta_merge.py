@@ -114,7 +114,7 @@ def get_values(data_list):
 def load_meta_files(file_list):
     meta_data = list()
     for f in file_list:
-        data = yaml.safe_load(open(f, 'rb'))
+        data = yaml.safe_load(open(f, 'r'))
         meta_data.append(data)
     return meta_data
 
