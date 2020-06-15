@@ -13,9 +13,6 @@ class OncotreeDataHandler:
         request = requests.get('http://oncotree.mskcc.org/api/tumorTypes').json()
         if 'error' in request: # load from file if error
             request = json.load(open(oncotree_json, 'r'))
-        else:
-            with open(oncotree_json, 'w') as json_out:
-                json.dump(request,json_out) # successful query; save to file
         converted_data = self.convert_data_key(request)
         return converted_data
 
