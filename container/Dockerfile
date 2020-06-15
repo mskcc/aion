@@ -8,3 +8,5 @@ RUN conda install pandas \
     && git clone https://github.com/mskcc/aion /usr/bin/aion \
     && cd /usr/bin/aion \
     && git checkout $VERSION
+
+RUN pip install ruamel.yaml requests
