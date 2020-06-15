@@ -1,0 +1,9 @@
+directories:
+    - { class: File, path: "/ifs/res/pi/Proj_06362_B.3cd61118-5a38-11e9-959c-645106ef9e4c/portal/" }
+    - { class: File, path: "/ifs/res/pi/Proj_06362_C.d7bb7388-5a21-11e9-b0af-645106ef9e4c/portal/" }
+    - { class: File, path: "/ifs/res/pi/Proj_06362_D.a74b5832-5a24-11e9-9974-645106ef9e4c/portal/" }
+    - { class: File, path: "/ifs/res/pi/Proj_06362.9d7dfa06-728b-11e9-8a53-645106ef9e4c/portal/" }
+project_desc: "My project description"
+project_title: null
+study_id: "my_study_id"
+output_directory: "."

@@ -1,0 +1,90 @@
+SAMPLE_ID:
+    display_name: Sample Identifier
+    desc: Sample Identifier
+    datatype: STRING
+    priority: 1
+PATIENT_ID:
+    display_name: Patient Identifier
+    desc: Patient Identifier
+    datatype: STRING
+    priority: 1
+COLLAB_ID:
+    display_name: Collaboration Identifier
+    desc: Collaboration Identifier
+    datatype: STRING
+    priority: 0
+IGO_ID:
+    display_name: IGO ID
+    desc: Internal IGO ID
+    datatype: STRING
+    priority: 0
+ONCOTREE_CODE:
+    display_name: Oncotree Code
+    desc: Oncotree Code
+    datatype: STRING
+    priority: 1
+REQUEST_ID:
+    display_name: Request ID
+    desc: IGO Request ID
+    datatype: STRING
+    priority: 1
+PROJECT_ID:
+    display_name: Project ID
+    desc: IGO Project ID
+    datatype: STRING
+    priority: 1
+PROJECT_PI:
+    display_name: Project PI
+    desc: The PI email pulled from the IGO project
+    datatype: STRING
+    priority: 1
+REQUEST_PI:
+    display_name: Request PI
+    desc: The lab head email pulled from the IGO request
+    datatype: STRING
+    priority: 1
+PIPELINE_VERSION:
+    display_name: Pipeline Version
+    desc: Pipeline version
+    datatype: STRING
+    priority: 1
+PIPELINE:
+    display_name: Pipeline
+    desc: Pipeline name
+    datatype: STRING
+    priority: 1
+SPECIMEN_PRESERVATION_TYPE:
+    display_name: Specimen Preservation Type
+    desc: The method used for preparing the tissue for examination and study.
+    datatype: STRING
+    priority: 1
+SAMPLE_COVERAGE:
+    display_name: Sample coverage
+    desc: Sample coverage
+    datatype: STRING
+    priority: 1
+GENE_PANEL:
+    display_name: Gene Panel
+    desc: Gene Panel
+    datatype: STRING
+    priority: 1
+SAMPLE_TYPE:
+    display_name: Sample Type
+    desc: The type of sample (i.e., normal, primary, met, recurrence).
+    datatype: STRING
+    priority: 1
+SAMPLE_CLASS:
+    display_name: Sample Class
+    desc: The sample classification (i.e., tumor, cellline, xenograph).
+    datatype: STRING
+    priority: 1
+SEX:
+    display_name: Sex
+    desc: Sex
+    datatype: STRING
+    priority: 1
+TISSUE_SITE:
+    display_name: Tissue Site
+    desc: Tissue Site
+    datatype: STRING
+    priority: 1
