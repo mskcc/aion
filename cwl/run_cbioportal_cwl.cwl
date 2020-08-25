@@ -42,7 +42,7 @@ inputs:
     inputBinding:
         prefix: --directories
     doc: "Contains a list of file paths"
-  project_desc:
+  project_description:
     type: string
     inputBinding:
         prefix: --project_desc
