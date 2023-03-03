@@ -15,6 +15,7 @@ ROW_DATATYPE = 2
 ROW_PRIORITY = 3
 
 COL_SAMPLES_ORDER = ["SAMPLE_ID", "PATIENT_ID"]
+DATA_MUTATIONS_UNIQ_COLS = ["Chromosome","Start_Position","End_Position","Reference_Allele","Tumor_Seq_Allele2","Tumor_Sample_Barcode"]
 
 def run_merge(file_list):
     clinical_attrs_by_file = get_clinical_attrs(file_list)
@@ -198,6 +199,7 @@ def merge_mutations(file_list, fillna=False):
         main_df = pd.concat(dfs, sort=False)
         if fillna:
             main_df = main_df.fillna("NA")
+        main_df.drop_duplicates(subset=DATA_MUTATIONS_UNIQ_COLS)
         s = main_df.to_csv(sep='\t')
     except ValueError:
         s = return_only_header(file_list)
