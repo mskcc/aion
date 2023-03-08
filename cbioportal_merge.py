@@ -15,6 +15,7 @@ CLINICAL_DATA_SAMPLE_FILE = "data_clinical_sample.txt"
 DATA_CNA_FILE = "data_CNA.txt"
 DATA_ASCNA_FILE = "data_CNA.ascna.txt"
 DATA_FUSION_FILE = "data_fusions.txt"
+DATA_SV_FILE = "data_sv.txt"
 DATA_MUTATIONS_FILE = "data_mutations_extended.txt"
 DATA_MUTATIONS_UNCALLED_FILE = "data_mutations_uncalled.txt"
 CLINICAL_META_PATIENT_FILE = "meta_clinical_patient.txt" # might be unnecessary
@@ -72,7 +73,7 @@ def runner(request_dict):
     samp_files = set()
     patient_files = set()
     meta_study_files = set()
-    meta_cna_files = set()
+    data_sv_files = set()
     data_cna_files = set()
     data_ascna_files = set()
     data_fusions_files = set()
@@ -93,6 +94,7 @@ def runner(request_dict):
         data_cna_files.add(add_file_to_merge(directory, DATA_CNA_FILE))
         data_ascna_files.add(add_file_to_merge(directory, DATA_ASCNA_FILE))
         data_fusions_files.add(add_file_to_merge(directory, DATA_FUSION_FILE))
+        data_sv_files.add(add_file_to_merge(directory, DATA_SV_FILE))
         data_mutations_files.add(add_file_to_merge(directory, DATA_MUTATIONS_FILE))
         cases_all.add(add_file_to_merge(directory,CASE_LISTS_ALL))
         cases_cnaseq.add(add_file_to_merge(directory,CASE_LISTS_CNASEQ))
@@ -108,6 +110,7 @@ def runner(request_dict):
     data_cna = clin_data_merge.merge_cna_fusions(data_cna_files, fillna=True)
     data_ascna = clin_data_merge.merge_cna_fusions(data_ascna_files, fillna=True)
     data_fusions = clin_data_merge.merge_mutations(data_fusions_files)
+    data_sv = clin_data_merge.merge_mutations(data_sv_files)
     data_mutations = clin_data_merge.merge_mutations(data_mutations_files, deduplicate=True)
     data_mutations_uncalled = clin_data_merge.merge_mutations(data_mutations_uncalled_files, deduplicate=True) 
 
@@ -117,6 +120,7 @@ def runner(request_dict):
     data_map_for_write[CLINICAL_DATA_PATIENT_FILE] = data_clinical_patient
     data_map_for_write[DATA_CNA_FILE] = data_cna
     data_map_for_write[DATA_FUSION_FILE] = data_fusions
+    data_map_for_write[DATA_SV_FILE] = data_sv
     data_map_for_write[DATA_MUTATIONS_FILE] = data_mutations
     data_map_for_write[DATA_MUTATIONS_UNCALLED_FILE] = data_mutations_uncalled
     data_map_for_write[DATA_ASCNA_FILE] = data_ascna
