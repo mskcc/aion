@@ -16,6 +16,7 @@ DATA_CNA_FILE = "data_CNA.txt"
 DATA_ASCNA_FILE = "data_CNA.ascna.txt"
 DATA_FUSION_FILE = "data_fusions.txt"
 DATA_MUTATIONS_FILE = "data_mutations_extended.txt"
+DATA_MUTATIONS_UNCALLED_FILE = "data_mutations_uncalled.txt"
 CLINICAL_META_PATIENT_FILE = "meta_clinical_patient.txt" # might be unnecessary
 CLINICAL_META_SAMPLE_FILE = "meta_clinical_sample.txt" # might be unnecessary
 META_STUDY_FILE = "meta_study.txt"
@@ -76,6 +77,7 @@ def runner(request_dict):
     data_ascna_files = set()
     data_fusions_files = set()
     data_mutations_files = set()
+    data_mutations_uncalled_files = set()
     cases_all = set()
     cases_cnaseq = set()
     cases_cna = set()
@@ -96,6 +98,7 @@ def runner(request_dict):
         cases_cnaseq.add(add_file_to_merge(directory,CASE_LISTS_CNASEQ))
         cases_cna.add(add_file_to_merge(directory,CASE_LISTS_CNA))
         cases_seq.add(add_file_to_merge(directory,CASE_LISTS_SEQ))
+        data_mutations_uncalled_files.add(add_file_to_merge(directory, DATA_MUTATIONS_UNCALLED_FILE))
         seg_data_files.add(get_file_from_glob(os.path.join(directory, "*data*.seg")))
         seg_meta_files.add(get_file_from_glob(os.path.join(directory, "*meta*seg.txt")))
 
@@ -105,7 +108,8 @@ def runner(request_dict):
     data_cna = clin_data_merge.merge_cna_fusions(data_cna_files, fillna=True)
     data_ascna = clin_data_merge.merge_cna_fusions(data_ascna_files, fillna=True)
     data_fusions = clin_data_merge.merge_mutations(data_fusions_files)
-    data_mutations = clin_data_merge.merge_mutations(data_mutations_files) 
+    data_mutations = clin_data_merge.merge_mutations(data_mutations_files, deduplicate=True)
+    data_mutations_uncalled = clin_data_merge.merge_mutations(data_mutations_uncalled_files, deduplicate=True) 
 
     # write out data_clinical_patient/sample, data_cna
     data_map_for_write = dict()
@@ -114,6 +118,7 @@ def runner(request_dict):
     data_map_for_write[DATA_CNA_FILE] = data_cna
     data_map_for_write[DATA_FUSION_FILE] = data_fusions
     data_map_for_write[DATA_MUTATIONS_FILE] = data_mutations
+    data_map_for_write[DATA_MUTATIONS_UNCALLED_FILE] = data_mutations_uncalled
     data_map_for_write[DATA_ASCNA_FILE] = data_ascna
     write_dict(output_dir, data_map_for_write)
 
