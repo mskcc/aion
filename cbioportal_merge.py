@@ -21,7 +21,6 @@ DATA_MUTATIONS_UNCALLED_FILE = "data_mutations_uncalled.txt"
 CLINICAL_META_PATIENT_FILE = "meta_clinical_patient.txt" # might be unnecessary
 CLINICAL_META_SAMPLE_FILE = "meta_clinical_sample.txt" # might be unnecessary
 META_STUDY_FILE = "meta_study.txt"
-META_CNA_FILE = "meta_CNA.txt"
 CASE_LISTS_ALL = "case_lists/cases_all.txt"
 CASE_LISTS_CNASEQ = "case_lists/cases_cnaseq.txt"
 CASE_LISTS_CNA = "case_lists/cases_cna.txt"
@@ -90,16 +89,11 @@ def runner(request_dict):
         samp_files.add(add_file_to_merge(directory, CLINICAL_DATA_SAMPLE_FILE))
         patient_files.add(add_file_to_merge(directory, CLINICAL_DATA_PATIENT_FILE))
         meta_study_files.add(add_file_to_merge(directory, META_STUDY_FILE))
-        meta_cna_files.add(add_file_to_merge(directory, META_CNA_FILE))
         data_cna_files.add(add_file_to_merge(directory, DATA_CNA_FILE))
         data_ascna_files.add(add_file_to_merge(directory, DATA_ASCNA_FILE))
         data_fusions_files.add(add_file_to_merge(directory, DATA_FUSION_FILE))
         data_sv_files.add(add_file_to_merge(directory, DATA_SV_FILE))
         data_mutations_files.add(add_file_to_merge(directory, DATA_MUTATIONS_FILE))
-        cases_all.add(add_file_to_merge(directory,CASE_LISTS_ALL))
-        cases_cnaseq.add(add_file_to_merge(directory,CASE_LISTS_CNASEQ))
-        cases_cna.add(add_file_to_merge(directory,CASE_LISTS_CNA))
-        cases_seq.add(add_file_to_merge(directory,CASE_LISTS_SEQ))
         data_mutations_uncalled_files.add(add_file_to_merge(directory, DATA_MUTATIONS_UNCALLED_FILE))
         seg_data_files.add(get_file_from_glob(os.path.join(directory, "*data*.seg")))
         seg_meta_files.add(get_file_from_glob(os.path.join(directory, "*meta*seg.txt")))
