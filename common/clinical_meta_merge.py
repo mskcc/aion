@@ -32,12 +32,22 @@ def make_meta_info(study_id):
             'stable_id': 'cna' }
 
     meta_vars['meta_fusions.txt'] = { 'study_id': study_id,
-            'fname': 'data_fusions.txt', 'datatype': 'FUSION',
+            'fname': 'data_fusions.txt',
+            'datatype': 'FUSION',
             'alteration_type': 'FUSION',
             'desc': 'Fusion data',
             'name': 'Fusions',
             'show': 'true',
             'stable_id': 'fusion' }
+
+    meta_vars['meta_sv.txt'] = { 'study_id': study_id,
+            'fname': 'data_sv.txt',
+            'datatype': 'SV',
+            'alteration_type': 'STRUCTURAL_VARIANT',
+            'desc': 'Structural variants data.',
+            'name': 'Structural variants',
+            'show': 'true',
+            'stable_id': 'structural_variants' }
 
     meta_vars['meta_mutations_extended.txt'] = { 'study_id': study_id,
             'fname': 'data_mutations_extended.txt',
@@ -48,6 +58,15 @@ def make_meta_info(study_id):
             'show': 'true',
             'stable_id': 'mutations' }
 
+    meta_vars['meta_mutations_uncalled.txt'] = { 'study_id': study_id,
+            'fname': 'data_mutations_uncalled.txt',
+            'datatype': 'MAF',
+            'alteration_type': 'MUTATION_UNCALLED',
+            'desc': 'Mutation data from whole exome sequencing. (Uncalled)',
+            'name': 'Mutations Uncalled',
+            'show': 'false',
+            'stable_id': 'mutations_uncalled' }
+    
     data = make_meta_files(meta_vars)
     return data
 
