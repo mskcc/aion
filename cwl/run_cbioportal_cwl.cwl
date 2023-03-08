@@ -30,7 +30,7 @@ requirements:
   InlineJavascriptRequirement: {}
   SubworkflowFeatureRequirement: {}
   DockerRequirement:
-    dockerPull: mskcc/aion:1.0.0
+    dockerPull: mskcc/aion:1.1.0
 
 baseCommand: [ 'python3', '/usr/bin/aion/cbioportal_merge.py' ]
 
