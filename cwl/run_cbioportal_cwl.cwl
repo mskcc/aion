@@ -52,6 +52,14 @@ inputs:
     inputBinding:
         prefix: --project_title
     doc: "Project title"
+  sample_data_clinical_files:
+    type:
+        type: array
+        items: File
+    default: []
+    inputBinding:
+        prefix: --sample_data_clinical_files
+    doc: "Sample Data Clinical Files"
   study_id:
     type: string
     inputBinding:

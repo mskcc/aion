@@ -65,6 +65,7 @@ def runner(request_dict):
     project_desc = request_dict['project_desc']
     title = request_dict['project_title']
     output_dir = request_dict['output_directory']
+    sample_data_clinical_files = request_dict['sample_data_clinical_files']
 
     make_directory(output_dir)
 
@@ -98,9 +99,13 @@ def runner(request_dict):
         seg_data_files.add(get_file_from_glob(os.path.join(directory, "*data*.seg")))
         seg_meta_files.add(get_file_from_glob(os.path.join(directory, "*meta*seg.txt")))
 
+    ## Load the sample data clinical files and retrieve the extra sample and patient dataframes
+    sample_df, patient_df = clin_data_merge.read_sample_data_clinical(sample_data_clinical_files)
+    
     ## Begin clinical data file processing
-    data_clinical_sample = clin_data_merge.run_merge(samp_files)
-    data_clinical_patient = clin_data_merge.run_merge_patient(patient_files)
+
+    data_clinical_sample = clin_data_merge.run_merge(samp_files, additional_df=sample_df)
+    data_clinical_patient = clin_data_merge.run_merge_patient(patient_files, additional_df=patient_df)
     data_cna = clin_data_merge.merge_cna_fusions(data_cna_files, fillna=True)
     data_ascna = clin_data_merge.merge_cna_fusions(data_ascna_files, fillna=True)
     data_fusions = clin_data_merge.merge_mutations(data_fusions_files)
@@ -174,6 +179,7 @@ if __name__ == "__main__":
     parser.add_argument("--directories", nargs="+", required=True, help="List of directories to merge")
     parser.add_argument("--project_desc", required=True, help="Project description")
     parser.add_argument("--project_title", required=False, help="Project Title")
+    parser.add_argument("--sample_data_clinical_files" required=False, help="Sample Data Clinical Files", nargs="*")
     parser.add_argument("--study_id", required=True, help="Study ID")
     parser.add_argument("--output_directory", required=False, help="Location of output directory")
     args =  parser.parse_args()
