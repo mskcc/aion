@@ -187,8 +187,7 @@ def merge_cna_fusions(file_list, fillna=False):
         print("No fusion files to concatenate")
     return s
 
-
-def merge_mutations(file_list, fillna=False):
+def merge_mutations(file_list, fillna=False, deduplicate=False):
     dfs = list()
     try:
         for fname in file_list:
@@ -199,7 +198,8 @@ def merge_mutations(file_list, fillna=False):
         main_df = pd.concat(dfs, sort=False)
         if fillna:
             main_df = main_df.fillna("NA")
-        main_df.drop_duplicates(subset=DATA_MUTATIONS_UNIQ_COLS)
+        if deduplicate:
+            main_df.drop_duplicates(subset=DATA_MUTATIONS_UNIQ_COLS)
         s = main_df.to_csv(sep='\t')
     except ValueError:
         s = return_only_header(file_list)
