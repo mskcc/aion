@@ -49,7 +49,8 @@ def get_file_from_glob(path):
     if len(result) > 1:
         print("Found multiple files when there should only be one: %s" % ";".join(result))
         sys.exit(1)
-    return result[0]
+    if result:
+        return result[0]
 
 def write_dict(output_dir, d):
     for key in d:
