@@ -98,8 +98,8 @@ def read_sample_data_clinical(file_list):
     for fname in file_list:
         sample_data_df = pd.read_csv(fname, index_col = None, sep="\t", header = 0, comment = '#', keep_default_na=False)
         sample_data_df.fillna('', inplace=True)
-        sample_df = pd.DataFrame(sample_data_df, columns=COL_SAMPLE)
-        patient_df = pd.DataFrame(sample_data_df, columns=COL_PATIENT)
+        sample_df = pd.DataFrame(sample_data_df, columns=[col for col in sample_data_df if col in  COL_SAMPLE])
+        patient_df = pd.DataFrame(sample_data_df, columns=[col for col in sample_data_df if col in  COL_PATIENT])
         sample_dfs.append(sample_df)
         patient_dfs.append(patient_df)
     dedup_sample_df = pd.concat(sample_dfs,ignore_index=True).drop_duplicates(subset='SAMPLE_ID').reset_index(drop=True)
