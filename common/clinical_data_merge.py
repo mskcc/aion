@@ -23,7 +23,7 @@ COL_SAMPLE = [col for col in DEFINITIONS_CLINICAL.keys() if col != "SEX"]
 def run_merge(file_list, additional_df=None):
     clinical_attrs_by_file = get_clinical_attrs(file_list)
     clin_attrs = get_union_attrs(clinical_attrs_by_file)
-    combined_df = combine_files(file_list)
+    combined_df = combine_files(file_list, additional_df=additional_df)
     header = create_portal_header(clin_attrs, combined_df)
     data = create_data_rows(combined_df)
     output_string = header + data
@@ -32,7 +32,7 @@ def run_merge(file_list, additional_df=None):
 def run_merge_patient(file_list, additional_df=None):
     clinical_attrs_by_file = get_clinical_attrs(file_list)
     clin_attrs = get_union_attrs(clinical_attrs_by_file)
-    combined_df = combine_files_patient(file_list)
+    combined_df = combine_files_patient(file_list, additional_df=additional_df)
     header = create_portal_header(clin_attrs, combined_df)
     data = create_data_rows(combined_df)
     output_string = header + data
@@ -70,23 +70,23 @@ def get_value(val):
         return str(val)
     return val
 
-def combine_files(file_list, additional_df=None):
+def combine_files(file_list, additional_df=pd.DataFrame()):
     dfs = list()
     for fname in file_list:
         df = pd.read_csv(fname, index_col = None, sep="\t", header = 0, comment = '#', keep_default_na=False, converters={'PROJECT_ID': lambda x: str(x), 'REQUEST_ID': lambda x: str(x)})
         df.fillna('', inplace=True)
         dfs.append(df)
-    if additional_df:
+    if not additional_df.empty:
         dfs.append(additional_df)
     return pd.concat(dfs,ignore_index=True).drop_duplicates(subset='SAMPLE_ID').reset_index(drop=True)
 
-def combine_files_patient(file_list, additional_df=None):
+def combine_files_patient(file_list, additional_df=pd.DataFrame()):
     dfs = list()
     for fname in file_list:
         df = pd.read_csv(fname, index_col = None, sep="\t", header = 0, comment = '#', keep_default_na=False)
         df.fillna('', inplace=True)
         dfs.append(df)
-    if additional_df:
+    if not additional_df.empty:
         dfs.append(additional_df)
     return pd.concat(dfs,ignore_index=True).drop_duplicates(subset='PATIENT_ID').reset_index(drop=True)
 
