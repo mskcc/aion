@@ -8,7 +8,7 @@ import common.clinical_data_merge as clin_data_merge
 import common.clinical_meta_merge as clin_meta_merge
 import common.case_lists_merge as case_lists_merge
 import common.seg_merge as seg_merge
-
+from typing import TypeVar
 # Files to be merged
 CLINICAL_DATA_PATIENT_FILE = "data_clinical_patient.txt"
 CLINICAL_DATA_SAMPLE_FILE = "data_clinical_sample.txt"
@@ -25,6 +25,12 @@ CASE_LISTS_ALL = "case_lists/cases_all.txt"
 CASE_LISTS_CNASEQ = "case_lists/cases_cnaseq.txt"
 CASE_LISTS_CNA = "case_lists/cases_cna.txt"
 CASE_LISTS_SEQ = "case_lists/cases_sequenced.txt"
+
+class NonNoneSet(set):
+    def add(self, element: TypeVar("_T")) -> None:
+        if element != None:
+            return super().add(element)
+
 
 def add_file_to_merge(dirpath, fname):
     fpath = os.path.join(dirpath, fname)
@@ -70,21 +76,21 @@ def runner(request_dict):
     make_directory(output_dir)
 
     # load common files into sets
-    samp_files = set()
-    patient_files = set()
-    meta_study_files = set()
-    data_sv_files = set()
-    data_cna_files = set()
-    data_ascna_files = set()
-    data_fusions_files = set()
-    data_mutations_files = set()
-    data_mutations_uncalled_files = set()
-    cases_all = set()
-    cases_cnaseq = set()
-    cases_cna = set()
-    cases_seq = set()
-    seg_data_files = set()
-    seg_meta_files = set()
+    samp_files = NonNoneSet()
+    patient_files = NonNoneSet()
+    meta_study_files = NonNoneSet()
+    data_sv_files = NonNoneSet()
+    data_cna_files = NonNoneSet()
+    data_ascna_files = NonNoneSet()
+    data_fusions_files = NonNoneSet()
+    data_mutations_files = NonNoneSet()
+    data_mutations_uncalled_files = NonNoneSet()
+    cases_all = NonNoneSet()
+    cases_cnaseq = NonNoneSet()
+    cases_cna = NonNoneSet()
+    cases_seq = NonNoneSet()
+    seg_data_files = NonNoneSet()
+    seg_meta_files = NonNoneSet()
 
     for directory in dir_list:
         samp_files.add(add_file_to_merge(directory, CLINICAL_DATA_SAMPLE_FILE))
