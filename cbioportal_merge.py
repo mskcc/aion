@@ -197,7 +197,7 @@ if __name__ == "__main__":
     parser.add_argument("--directories", nargs="+", required=True, help="List of directories to merge")
     parser.add_argument("--project_desc", required=True, help="Project description")
     parser.add_argument("--project_title", required=False, help="Project Title")
-    parser.add_argument("--sample_data_clinical_files" required=False, help="Sample Data Clinical Files", nargs="*")
+    parser.add_argument("--sample_data_clinical_files", required=False, help="Sample Data Clinical Files", nargs="*")
     parser.add_argument("--study_id", required=True, help="Study ID")
     parser.add_argument("--output_directory", required=False, help="Location of output directory")
     args =  parser.parse_args()
