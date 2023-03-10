@@ -18,7 +18,7 @@ COL_SAMPLES_ORDER = ["SAMPLE_ID", "PATIENT_ID"]
 DATA_MUTATIONS_UNIQ_COLS = ["Chromosome","Start_Position","End_Position","Reference_Allele","Tumor_Seq_Allele2","Tumor_Sample_Barcode"]
 DEFINITIONS_CLINICAL = yaml.safe_load(pkgutil.get_data('cbioportal_merge', 'resources/clinical_data/data.yaml'))
 COL_PATIENT = ["PATIENT_ID","SEX"]
-COL_SAMPLE = [for col in DEFINITIONS_CLINICAL.keys() if col != "SEX"]
+COL_SAMPLE = [col for col in DEFINITIONS_CLINICAL.keys() if col != "SEX"]
 
 def run_merge(file_list, additional_df=None):
     clinical_attrs_by_file = get_clinical_attrs(file_list)
