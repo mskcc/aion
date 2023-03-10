@@ -103,6 +103,10 @@ def runner(request_dict):
         data_sv_files.add(add_file_to_merge(directory, DATA_SV_FILE))
         data_mutations_files.add(add_file_to_merge(directory, DATA_MUTATIONS_FILE))
         data_mutations_uncalled_files.add(add_file_to_merge(directory, DATA_MUTATIONS_UNCALLED_FILE))
+        cases_all.add(add_file_to_merge(directory,CASE_LISTS_ALL))
+        cases_cnaseq.add(add_file_to_merge(directory,CASE_LISTS_CNASEQ))
+        cases_cna.add(add_file_to_merge(directory,CASE_LISTS_CNA))
+        cases_seq.add(add_file_to_merge(directory,CASE_LISTS_SEQ))
         seg_data_files.add(get_file_from_glob(os.path.join(directory, "*data*.seg")))
         seg_meta_files.add(get_file_from_glob(os.path.join(directory, "*meta*seg.txt")))
 
