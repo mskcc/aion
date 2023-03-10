@@ -122,7 +122,10 @@ def runner(request_dict):
     data_fusions = clin_data_merge.merge_mutations(data_fusions_files)
     data_sv = clin_data_merge.merge_mutations(data_sv_files)
     data_mutations = clin_data_merge.merge_mutations(data_mutations_files, deduplicate=True)
-    data_mutations_uncalled = clin_data_merge.merge_mutations(data_mutations_uncalled_files, deduplicate=True) 
+    if data_mutations_uncalled_files:
+        data_mutations_uncalled = clin_data_merge.merge_mutations(data_mutations_uncalled_files, deduplicate=True)
+    else:
+        data_mutations_uncalled = None
 
     # write out data_clinical_patient/sample, data_cna
     data_map_for_write = dict()
@@ -132,7 +135,8 @@ def runner(request_dict):
     data_map_for_write[DATA_FUSION_FILE] = data_fusions
     data_map_for_write[DATA_SV_FILE] = data_sv
     data_map_for_write[DATA_MUTATIONS_FILE] = data_mutations
-    data_map_for_write[DATA_MUTATIONS_UNCALLED_FILE] = data_mutations_uncalled
+    if data_mutations_uncalled:
+        data_map_for_write[DATA_MUTATIONS_UNCALLED_FILE] = data_mutations_uncalled
     data_map_for_write[DATA_ASCNA_FILE] = data_ascna
     write_dict(output_dir, data_map_for_write)
 
@@ -151,6 +155,9 @@ def runner(request_dict):
 
     # write out meta_study, meta_clinical_patient/sample, other_meta
     meta = clin_meta_merge.make_meta_info(study_id)
+    # Do not write meta_mutations_uncalled.txt if data_mutations_uncalled does not exist
+    if not data_mutations_uncalled:
+        meta.pop('meta_mutations_uncalled.txt',None)
     meta[META_STUDY_FILE] = meta_study
     meta[CLINICAL_META_PATIENT_FILE] = meta_clinical_patient
     meta[CLINICAL_META_SAMPLE_FILE] = meta_clinical_sample
