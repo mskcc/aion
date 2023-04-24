@@ -15,20 +15,24 @@ ROW_DATATYPE = 2
 ROW_PRIORITY = 3
 
 COL_SAMPLES_ORDER = ["SAMPLE_ID", "PATIENT_ID"]
+DATA_MUTATIONS_UNIQ_COLS = ["Chromosome","Start_Position","End_Position","Reference_Allele","Tumor_Seq_Allele2","Tumor_Sample_Barcode"]
+DEFINITIONS_CLINICAL = yaml.safe_load(pkgutil.get_data('cbioportal_merge', 'resources/clinical_data/data.yaml'))
+COL_PATIENT = ["PATIENT_ID","SEX"]
+COL_SAMPLE = [col for col in DEFINITIONS_CLINICAL.keys() if col != "SEX"]
 
-def run_merge(file_list):
+def run_merge(file_list, additional_df=None):
     clinical_attrs_by_file = get_clinical_attrs(file_list)
     clin_attrs = get_union_attrs(clinical_attrs_by_file)
-    combined_df = combine_files(file_list)
+    combined_df = combine_files(file_list, additional_df=additional_df)
     header = create_portal_header(clin_attrs, combined_df)
     data = create_data_rows(combined_df)
     output_string = header + data
     return output_string
 
-def run_merge_patient(file_list):
+def run_merge_patient(file_list, additional_df=None):
     clinical_attrs_by_file = get_clinical_attrs(file_list)
     clin_attrs = get_union_attrs(clinical_attrs_by_file)
-    combined_df = combine_files_patient(file_list)
+    combined_df = combine_files_patient(file_list, additional_df=additional_df)
     header = create_portal_header(clin_attrs, combined_df)
     data = create_data_rows(combined_df)
     output_string = header + data
@@ -66,21 +70,41 @@ def get_value(val):
         return str(val)
     return val
 
-def combine_files(file_list):
+def combine_files(file_list, additional_df=pd.DataFrame()):
     dfs = list()
     for fname in file_list:
         df = pd.read_csv(fname, index_col = None, sep="\t", header = 0, comment = '#', keep_default_na=False, converters={'PROJECT_ID': lambda x: str(x), 'REQUEST_ID': lambda x: str(x)})
         df.fillna('', inplace=True)
         dfs.append(df)
-    return pd.concat(dfs,ignore_index=True).drop_duplicates().reset_index(drop=True)
+    if not additional_df.empty:
+        dfs.append(additional_df)
+    return pd.concat(dfs,ignore_index=True).drop_duplicates(subset='SAMPLE_ID').reset_index(drop=True)
 
-def combine_files_patient(file_list):
+def combine_files_patient(file_list, additional_df=pd.DataFrame()):
     dfs = list()
     for fname in file_list:
         df = pd.read_csv(fname, index_col = None, sep="\t", header = 0, comment = '#', keep_default_na=False)
         df.fillna('', inplace=True)
         dfs.append(df)
+    if not additional_df.empty:
+        dfs.append(additional_df)
     return pd.concat(dfs,ignore_index=True).drop_duplicates(subset='PATIENT_ID').reset_index(drop=True)
+
+def read_sample_data_clinical(file_list):
+    sample_dfs = list()
+    patient_dfs = list()
+    dedup_sample_df = None
+    dedup_patient_df = None
+    for fname in file_list:
+        sample_data_df = pd.read_csv(fname, index_col = None, sep="\t", header = 0, comment = '#', keep_default_na=False)
+        sample_data_df.fillna('', inplace=True)
+        sample_df = pd.DataFrame(sample_data_df, columns=[col for col in sample_data_df if col in  COL_SAMPLE])
+        patient_df = pd.DataFrame(sample_data_df, columns=[col for col in sample_data_df if col in  COL_PATIENT])
+        sample_dfs.append(sample_df)
+        patient_dfs.append(patient_df)
+    dedup_sample_df = pd.concat(sample_dfs,ignore_index=True).drop_duplicates(subset='SAMPLE_ID').reset_index(drop=True)
+    dedup_patient_df = pd.concat(patient_dfs,ignore_index=True).drop_duplicates(subset='PATIENT_ID').reset_index(drop=True)
+    return dedup_sample_df, dedup_patient_df
 
 def create_col_order(attrs):
     col_order = list()
@@ -93,7 +117,6 @@ def create_col_order(attrs):
 
 # Get a master dictionary filled with all attributes found from all files
 def get_union_attrs(clinical_attrs_by_file):
-    DEFINITIONS_CLINICAL = yaml.safe_load(pkgutil.get_data('cbioportal_merge', 'resources/clinical_data/data.yaml'))
     union_attrs = dict()
     for file_name in clinical_attrs_by_file:
         clin_attrs = clinical_attrs_by_file[file_name]
@@ -186,8 +209,7 @@ def merge_cna_fusions(file_list, fillna=False):
         print("No fusion files to concatenate")
     return s
 
-
-def merge_mutations(file_list, fillna=False):
+def merge_mutations(file_list, fillna=False, deduplicate=False):
     dfs = list()
     try:
         for fname in file_list:
@@ -198,6 +220,8 @@ def merge_mutations(file_list, fillna=False):
         main_df = pd.concat(dfs, sort=False)
         if fillna:
             main_df = main_df.fillna("NA")
+        if deduplicate:
+            main_df.drop_duplicates(subset=DATA_MUTATIONS_UNIQ_COLS)
         s = main_df.to_csv(sep='\t')
     except ValueError:
         s = return_only_header(file_list)

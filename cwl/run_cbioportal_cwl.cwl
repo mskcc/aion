@@ -30,7 +30,7 @@ requirements:
   InlineJavascriptRequirement: {}
   SubworkflowFeatureRequirement: {}
   DockerRequirement:
-    dockerPull: mskcc/aion:1.0.0
+    dockerPull: mskcc/aion:1.1.0
 
 baseCommand: [ 'python3', '/usr/bin/aion/cbioportal_merge.py' ]
 
@@ -52,6 +52,14 @@ inputs:
     inputBinding:
         prefix: --project_title
     doc: "Project title"
+  sample_data_clinical_files:
+    type:
+        type: array
+        items: File
+    default: []
+    inputBinding:
+        prefix: --sample_data_clinical_files
+    doc: "Sample Data Clinical Files"
   study_id:
     type: string
     inputBinding:
